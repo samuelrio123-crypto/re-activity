@@ -1,4 +1,3 @@
-apter · JS
 /* Reporto — adapter Supabase.
  * Meniru google.script.run milik Apps Script supaya Index.html tidak perlu ditulis ulang.
  * Tiap fungsi di API di bawah = satu fungsi di Code.gs lama (nama & bentuk hasil sama). */
