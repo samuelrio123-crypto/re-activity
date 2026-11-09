@@ -699,7 +699,6 @@ body.edit:not(.locked) #viewer#viewer[data-mode=render] .side{right:84px}
 <style id="v5css">
 /* ===== v5: mode Render / Gambar Kerja / Detail, badge 360°, sub material ===== */
 .vmodes{display:flex;gap:6px;align-items:center;flex:none}
-.vmodes{display:none!important} /* tombol Render / Gambar Kerja / Detail disembunyikan */
 .vmodes button{padding:9px 16px;border-radius:99px;font-size:13px;color:#e8eef0;background:rgba(255,255,255,.08);border:1px solid var(--line);-webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px);white-space:nowrap;cursor:pointer}
 .vmodes button.on{background:linear-gradient(180deg,#e6c78d,#d0a65e);color:#1a1306;border-color:transparent;font-weight:600}
 .vmodes span{opacity:.7;margin-left:4px;font-weight:400}
@@ -938,8 +937,7 @@ body:not([data-vmode=kerja]):not([data-vmode=detail]) .tbtn[data-m=d]{display:no
 <div id="viewer">
  <div class="vtop">
   <div class="vleft"><img class="vbrand" id="vBrand" alt="Re-Inter" role="button" aria-label="Kembali ke beranda"><div><div class="eyebrow" id="vStatus"></div><h3 id="vName"></h3></div></div>
-  <div class="vmodes" id="vmodes"><button data-vm="render" class="on">Render</button><button data-vm="kerja">Gambar Kerja<span id="nK"></span></button><button data-vm="detail">Detail<span id="nD"></span></button></div>
-  <div class="tl"><button class="btn ghost sm" id="tDotsB" title="Tampilkan / sembunyikan titik material (tombol M)">Titik</button><button class="btn ghost sm" id="tMatList" title="Daftar material">Material</button><button class="btn ghost sm" id="tThumbs" title="Daftar render">Render</button><button class="btn ghost sm" id="tFull" title="Layar penuh">⛶</button><button class="vx" id="vClose" aria-label="Tutup">✕</button></div>
+  <div class="tl"><button class="btn ghost sm" id="tDotsB" title="Tampilkan / sembunyikan titik material (tombol M)">Titik</button><button class="btn ghost sm" id="tMatList" title="Daftar material">Material</button><button class="btn ghost sm" id="tThumbs" title="Daftar scene">Scene</button><button class="btn ghost sm" id="tFull" title="Layar penuh">⛶</button><button class="vx" id="vClose" aria-label="Tutup">✕</button></div>
  </div>
  <div class="vtabs" id="vtabs"><button data-m="render" class="on">Render<span id="nR"></span></button><button data-m="progress">Progress<span id="nP"></span></button></div>
  <div class="vtools" id="vtoolsP"><button class="btn acc sm" id="pNew">+ Update progress (maks. 4 sudut)</button></div>
@@ -975,7 +973,7 @@ body:not([data-vmode=kerja]):not([data-vmode=detail]) .tbtn[data-m=d]{display:no
 <div id="viewer">
  <div class="vtop">
   <div class="vleft"><img class="vbrand" id="vBrand" alt="Re-Inter" role="button" aria-label="Kembali ke beranda"><div><div class="eyebrow" id="vStatus"></div><h3 id="vName"></h3></div></div>
-  <div class="tl"><button class="btn ghost sm" id="tDotsB" title="Tampilkan / sembunyikan titik material (tombol M)">Titik</button><button class="btn ghost sm" id="tMatList" title="Daftar material">Material</button><button class="btn ghost sm" id="tThumbs" title="Daftar render">Scene</button><button class="btn ghost sm" id="tFull" title="Layar penuh">⛶</button><button class="vx" id="vClose" aria-label="Tutup">✕</button></div>
+  <div class="tl"><button class="btn ghost sm" id="tDotsB" title="Tampilkan / sembunyikan titik material (tombol M)">Titik</button><button class="btn ghost sm" id="tMatList" title="Daftar material">Material</button><button class="btn ghost sm" id="tThumbs" title="Daftar scene">Scene</button><button class="btn ghost sm" id="tFull" title="Layar penuh">⛶</button><button class="vx" id="vClose" aria-label="Tutup">✕</button></div>
  </div>
  <div class="vtabs" id="vtabs"><button data-m="render" class="on">Render<span id="nR"></span></button><button data-m="progress">Progress<span id="nP"></span></button></div>
  <div class="vtools" id="vtoolsP"><button class="btn acc sm" id="pNew">+ Update progress (maks. 4 sudut)</button></div>
