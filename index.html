@@ -701,7 +701,7 @@ body.edit:not(.locked) #viewer#viewer[data-mode=render] .side{right:84px}
 </style>
 <style id="v5css">
 /* ===== v5: mode Render / Gambar Kerja / Detail, badge 360°, sub material ===== */
-.vmodes{display:flex;gap:6px;align-items:center;flex:none}
+.vmodes{display:none!important}
 .vmodes button{padding:9px 16px;border-radius:99px;font-size:13px;color:#e8eef0;background:rgba(255,255,255,.08);border:1px solid var(--line);-webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px);white-space:nowrap;cursor:pointer}
 .vmodes button.on{background:linear-gradient(180deg,#e6c78d,#d0a65e);color:#1a1306;border-color:transparent;font-weight:600}
 .vmodes span{opacity:.7;margin-left:4px;font-weight:400}
@@ -2273,7 +2273,7 @@ function setMode(m){ const vw = $("#viewer"); vw.classList.add("tabswitch");
     document.querySelectorAll("#vmodes button").forEach(b=>b.classList.toggle("on",b.dataset.vm===m));
     const da = document.querySelector('.tbtn[data-id=dAdd]'); if (da) da.dataset.tip = m==="detail" ? "Tambah gambar detail" : "Tambah gambar kerja";
     if (m!=="render") { clearMat(); stopPlacing(); }
-    if (m==="progress") renderProg(); else if (DOCS[m]) { panoOff(); renderDocs(); $("#docs").scrollTop = 0; } else show(idx); counts();
+    if (m==="progress") renderProg(); else if (DOCS[m]) { panoOff(); renderDocs(); $("#docs").scrollTop = 0; } else show(idx); counts(); syncVBtns();
     requestAnimationFrame(() => requestAnimationFrame(() => vw.classList.remove("tabswitch"))); }, 180); }
 document.querySelectorAll("#vtabs button").forEach(b=>b.onclick=()=>setMode(b.dataset.m));
 document.querySelectorAll("#vmodes button").forEach(b=>b.onclick=()=>{ if (b.dataset.vm !== mode) setMode(b.dataset.vm); });
