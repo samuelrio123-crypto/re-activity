@@ -773,7 +773,6 @@ body:not([data-vmode=kerja]):not([data-vmode=detail]) .tbtn[data-m=d]{display:no
 @media(max-width:820px){body.edit:not(.locked) .docs{padding-left:52px;padding-right:52px}}
 @media(max-width:480px){.dgrid{grid-template-columns:1fr}}
 </style>
-</style>
 <style>
 /* ===== Loading setelah login: ring berputar + logo saja ===== */
 #ldr{position:fixed;inset:0;z-index:250;display:flex;align-items:center;justify-content:center;
@@ -940,7 +939,7 @@ body:not([data-vmode=kerja]):not([data-vmode=detail]) .tbtn[data-m=d]{display:no
 <div id="viewer">
  <div class="vtop">
   <div class="vleft"><img class="vbrand" id="vBrand" alt="Re-Inter" role="button" aria-label="Kembali ke beranda"><div><div class="eyebrow" id="vStatus"></div><h3 id="vName"></h3></div></div>
-  <div class="vmodes" id="vmodes"><button data-vm="render" class="on">Render</button><button data-vm="kerja">Gambar Kerja<span id="nK"></span></button><button data-vm="detail">Detail<span id="nD"></span></button></div>
+  <div class="vmodes" id="vmodes" hidden aria-hidden="true" style="display:none!important"><button data-vm="render" class="on">Render</button><button data-vm="kerja">Gambar Kerja<span id="nK"></span></button><button data-vm="detail">Detail<span id="nD"></span></button></div>
   <div class="tl"><button class="btn ghost sm" id="tDotsB" title="Tampilkan / sembunyikan titik material (tombol M)">Titik</button><button class="btn ghost sm" id="tMatList" title="Daftar material">Material</button><button class="btn ghost sm" id="tThumbs" title="Daftar render">Render</button><button class="btn ghost sm" id="tFull" title="Layar penuh">⛶</button><button class="vx" id="vClose" aria-label="Tutup">✕</button></div>
  </div>
  <div class="vtabs" id="vtabs"><button data-m="render" class="on">Render<span id="nR"></span></button><button data-m="progress">Progress<span id="nP"></span></button></div>
