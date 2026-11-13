@@ -1642,6 +1642,8 @@ function openViewer(id,i){
   cur = ROOMS.find(r=>r.id===id); idx = i;
   $("#vName").textContent = cur.nama;
   $("#vStatus").textContent = cur.status+roomPct(cur," · ");
+  /* setiap masuk ruangan: kondisi awal = hanya titik yang tampil (panel Material & Scene tertutup) */
+  { const v = $("#viewer"); v.classList.remove("matopen","thumbsopen","tEnter"); clearTimeout(tET); setDots(true); syncVBtns(); }
   $("#viewer").classList.add("show"); document.body.dataset.ctx = "room";
   document.body.style.overflow = "hidden";
   setMode("render");
@@ -1873,7 +1875,7 @@ $("#tDotsB").onclick = () => setDots(!dotsOn);
 syncVBtns();
 function clearMat(){ active = -1; pic.querySelectorAll(".mat").forEach(e=>e.remove()); document.querySelectorAll(".hot.on,.mi.on,.hot.sib").forEach(e=>e.classList.remove("on","sib")); }
 let closeT = 0;
-function closeViewer(){ if (typeof dlbClose === "function") dlbClose(); clearMat(); document.body.dataset.ctx = curView; const v = $("#viewer"); v.classList.remove("matopen","thumbsopen","tEnter"); $("#lb").classList.remove("show");
+function closeViewer(){ if (typeof dlbClose === "function") dlbClose(); clearMat(); document.body.dataset.ctx = curView; const v = $("#viewer"); v.classList.remove("matopen","thumbsopen","tEnter"); syncVBtns(); $("#lb").classList.remove("show");
   if (!v.classList.contains("show")) return;
   v.classList.add("closing"); clearTimeout(closeT); /* fade out dulu, baru disembunyikan */
   closeT = setTimeout(() => { v.classList.remove("show","closing"); document.body.style.overflow = ""; }, 380); }
