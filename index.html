@@ -581,6 +581,9 @@ body:not([data-ctx=home]) .topbar #tbName{visibility:hidden;pointer-events:none}
 .clothFold{position:absolute;inset:0;pointer-events:none;will-change:opacity}
 #viewer{transition:opacity .35s ease}
 #viewer.closing{opacity:0;pointer-events:none}
+@keyframes vFadeIn{from{opacity:0}to{opacity:1}}
+#viewer.show:not(.closing){animation:vFadeIn .55s ease backwards}
+@media (prefers-reduced-motion:reduce){#viewer.show:not(.closing){animation-duration:.01s}}
 @media (prefers-reduced-motion:reduce){.mat,.mat .sw{animation:none!important}#viewer{transition:none}}
 </style>
 <style>
@@ -1674,8 +1677,8 @@ async function clothOpen(id, el){
   const finish = () => { /* render dibuka SETELAH kain menutup penuh, lalu tunggu tampil sebelum kain dilepas */
     openViewer(id,0);
     requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(() => {
-      ov.style.transition = "opacity .5s ease"; ov.style.opacity = "0"; ov.style.pointerEvents = "none";
-      setTimeout(()=>{ ov.remove(); clothBusy = false; },540); }, 320))); };
+      ov.style.transition = "opacity .8s ease"; ov.style.opacity = "0"; ov.style.pointerEvents = "none";
+      setTimeout(()=>{ ov.remove(); clothBusy = false; },840); }, 560))); };
   requestAnimationFrame(function frame(now){
     if (!t0) t0 = now;
     const t = Math.min(1,(now-t0)/dur), p = ease(t), R0 = maxR*1.24*p, env = Math.sin(Math.PI*t)**.6, pts = new Array(N);
