@@ -15,14 +15,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Portofolio Virtual Proyek</title>
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-<link rel="icon" type="image/png" sizes="512x512" href="logo.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta property="og:image" content="https://alamat-situsmu/logo.png">
-<style>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Portofolio Virtual Proyek</title>
 <style>
 :root{--bg:#0b1220;--panel:#121b2e;--panel2:#18243d;--line:#25344f;--tx:#eaf0fa;--mute:#93a3bf;--acc:#ff7a1a;--navy:#12306b}
 *{box-sizing:border-box;margin:0}
@@ -945,7 +937,8 @@ body:not([data-vmode=kerja]):not([data-vmode=detail]) .tbtn[data-m=d]{display:no
 <div id="viewer">
  <div class="vtop">
   <div class="vleft"><img class="vbrand" id="vBrand" alt="Re-Inter" role="button" aria-label="Kembali ke beranda"><div><div class="eyebrow" id="vStatus"></div><h3 id="vName"></h3></div></div>
-  <div class="tl"><button class="btn ghost sm" id="tDotsB" title="Tampilkan / sembunyikan titik material (tombol M)">Titik</button><button class="btn ghost sm" id="tMatList" title="Daftar material">Material</button><button class="btn ghost sm" id="tThumbs" title="Daftar scene">Scene</button><button class="btn ghost sm" id="tFull" title="Layar penuh">⛶</button><button class="vx" id="vClose" aria-label="Tutup">✕</button></div>
+  <div class="vmodes" id="vmodes"><button data-vm="render" class="on">Render</button><button data-vm="kerja">Gambar Kerja<span id="nK"></span></button><button data-vm="detail">Detail<span id="nD"></span></button></div>
+  <div class="tl"><button class="btn ghost sm" id="tDotsB" title="Tampilkan / sembunyikan titik material (tombol M)">Titik</button><button class="btn ghost sm" id="tMatList" title="Daftar material">Material</button><button class="btn ghost sm" id="tThumbs" title="Daftar render">Render</button><button class="btn ghost sm" id="tFull" title="Layar penuh">⛶</button><button class="vx" id="vClose" aria-label="Tutup">✕</button></div>
  </div>
  <div class="vtabs" id="vtabs"><button data-m="render" class="on">Render<span id="nR"></span></button><button data-m="progress">Progress<span id="nP"></span></button></div>
  <div class="vtools" id="vtoolsP"><button class="btn acc sm" id="pNew">+ Update progress (maks. 4 sudut)</button></div>
@@ -981,7 +974,7 @@ body:not([data-vmode=kerja]):not([data-vmode=detail]) .tbtn[data-m=d]{display:no
 <div id="viewer">
  <div class="vtop">
   <div class="vleft"><img class="vbrand" id="vBrand" alt="Re-Inter" role="button" aria-label="Kembali ke beranda"><div><div class="eyebrow" id="vStatus"></div><h3 id="vName"></h3></div></div>
-  <div class="tl"><button class="btn ghost sm" id="tDotsB" title="Tampilkan / sembunyikan titik material (tombol M)">Titik</button><button class="btn ghost sm" id="tMatList" title="Daftar material">Material</button><button class="btn ghost sm" id="tThumbs" title="Daftar scene">Scene</button><button class="btn ghost sm" id="tFull" title="Layar penuh">⛶</button><button class="vx" id="vClose" aria-label="Tutup">✕</button></div>
+  <div class="tl"><button class="btn ghost sm" id="tDotsB" title="Tampilkan / sembunyikan titik material (tombol M)">Titik</button><button class="btn ghost sm" id="tMatList" title="Daftar material">Material</button><button class="btn ghost sm" id="tThumbs" title="Daftar render">Scene</button><button class="btn ghost sm" id="tFull" title="Layar penuh">⛶</button><button class="vx" id="vClose" aria-label="Tutup">✕</button></div>
  </div>
  <div class="vtabs" id="vtabs"><button data-m="render" class="on">Render<span id="nR"></span></button><button data-m="progress">Progress<span id="nP"></span></button></div>
  <div class="vtools" id="vtoolsP"><button class="btn acc sm" id="pNew">+ Update progress (maks. 4 sudut)</button></div>
@@ -1531,11 +1524,25 @@ function renderFinish(){ const f = $("#finishbar"); if (f) f.innerHTML = ""; }
 renderAll();
 if (idFix && SEED.editable) idb.set("data",{PROJECT,ROOMS}).catch(()=>{});
 /* ============ TAB BERANDA / DENAH ============ */
-let curView = "home";
+let curView = "home", viewTimer = 0;
+/* Paksa tampil di Beranda (hero) tanpa animasi + bersihkan #hash. Dipakai saat login / logout / buka halaman. */
+function forceHome(){
+  clearTimeout(viewTimer); curView = "home";
+  document.querySelectorAll("#toptabs button").forEach(b => b.classList.toggle("on", b.dataset.v === "home"));
+  document.body.classList.remove("viewDenah");
+  if (!$("#viewer").classList.contains("show")) document.body.dataset.ctx = "home";
+  const d = $("#denah"), h = $("#hero");
+  if (d) d.classList.remove("show","active");
+  if (h) h.classList.add("active","show");
+  try { window.scrollTo({top:0,behavior:"instant"}); } catch(_){ scrollTo(0,0); }
+  try { history.replaceState(null,"",location.pathname+location.search); } catch(_){}
+}
 function switchView(v){ if (v===curView) return; const VIEWS = {home:"#hero",denah:"#denah"}, show = $(VIEWS[v]), hide = $(VIEWS[curView]);
   document.querySelectorAll("#toptabs button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));
   document.body.classList.toggle("viewDenah", v==="denah"); if (!$("#viewer").classList.contains("show")) document.body.dataset.ctx = v; hide.classList.remove("show"); /* fade out, masih tampil */
-  setTimeout(() => {
+  clearTimeout(viewTimer);
+  viewTimer = setTimeout(() => {
+    if (curView !== v) return; /* sudah dipindah/di-reset (mis. logout), jangan timpa */
     hide.classList.remove("active"); /* baru disembunyikan sepenuhnya */
     show.classList.add("active"); 
     requestAnimationFrame(() => requestAnimationFrame(() => show.classList.add("show"))); /* lalu fade in */
@@ -1619,7 +1626,8 @@ document.body.dataset.ctx = curView;
     document.body.appendChild(rail); } }
 $("#toDenah").onclick = () => switchView("denah");
 $("#closeDenah").textContent = "‹ Beranda"; $("#closeDenah").onclick = () => switchView("home");
-if (location.hash === "#denah" || location.hash === "#kurva") switchView("denah");
+/* selalu mulai dari Beranda; hash lama (#denah/#kurva) dibuang supaya refresh / relog tidak nyasar ke denah */
+forceHome();
 /* viewer */
 let cur = null, idx = 0, active = -1, dragged = false, placing = null;
 const stage = $("#stage"), pic = $("#pic");
@@ -2170,7 +2178,7 @@ async function showLoader(){
   if (my !== loaderRun) return; /* sudah logout / login ulang */
   ov.classList.remove("show"); document.body.style.overflow = "";
 }
-function enter(r){ showLoader(); ROLE = r; document.body.classList.remove("locked"); document.body.dataset.role = r; $("#roleBadge").textContent = r==="owner" ? "Owner · bisa edit" : "Client · lihat saja"; eb.hidden = true; scrollTo(0,0); renderFinish();
+function enter(r){ forceHome(); showLoader(); ROLE = r; document.body.classList.remove("locked"); document.body.dataset.role = r; $("#roleBadge").textContent = r==="owner" ? "Owner · bisa edit" : "Client · lihat saja"; eb.hidden = true; scrollTo(0,0); renderFinish();
   if (r==="owner" && !EDIT) eb.click(); else if (r!=="owner" && EDIT) { EDIT = false; document.body.classList.remove("edit"); renderAll(); } }
 $("#lf").onsubmit = async e => { e.preventDefault(); if (GAS) return gasSubmit(); let h = "";
   try { h = await sha($("#lPw").value); } catch(_) { $("#lErr").textContent = "Buka lewat https atau file lokal agar login berfungsi."; return; }
@@ -2188,7 +2196,7 @@ $("#logout").onclick = () => { /* kembali ke menu login di tempat (tanpa reload,
   if (EDIT) { EDIT = false; document.body.classList.remove("edit"); eb.textContent = "Mode Edit"; }
   ROLE = null; delete document.body.dataset.role; eb.hidden = true;
   document.body.classList.add("locked");
-  if (curView !== "home") switchView("home");
+  forceHome();
   $("#lPw").value = ""; $("#lNama").value = ""; $("#lErr").textContent = ""; $("#lErr").style.color = ""; $("#lEmail").value = $("#lHp").value = "";
   daftarMode = !!GAS; loginRole = "client"; document.querySelectorAll("#seg button").forEach(x => x.classList.toggle("on", x.dataset.r === "client")); loginView();
   scrollTo(0,0); renderAll(); renderFinish();
